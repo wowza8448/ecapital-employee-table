@@ -2,10 +2,11 @@
 
 ### Goal
 Create an Employee Table like seen in the image below. Use any framework (Angular, React, Vue, ect...) or CSS library you would like to accomplish this
+
 ![](employee-table-example.png)
 
 ### Setup ###
-* Clone the repository
+* Fork the repository onto your own personal github account
 * Setup new project with framework of your choice or create static site
   * Angular example setup
       * Install Node.js v18
@@ -24,10 +25,11 @@ Create an Employee Table like seen in the image below. Use any framework (Angula
 
 ### Guidelines ###
 * Structure your application and components in a modular/reusable way
+* Commit code with useful and informative comments
 * Use mock data (mock-employees.json)
 * Do not implement API code
   * You can mimic a API call by creating a service but return only mock data
-* Adding, deleting, or editing employees does not have to write back to the mock-employees.json file
+* Adding, deleting, or editing employees does not write back to the mock-employees.json file
 * Styling: CSS or SCSS can be used, whichever you prefer (can use popular frameworks like Bootstrap as well)
 
 ### Questions? ###
