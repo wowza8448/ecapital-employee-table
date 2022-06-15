@@ -1,0 +1,29 @@
+#employee_table, #form_fields {
+  border-radius: 5px;
+  background: white;
+  padding: 15px;
+  width: 40%;
+  margin: auto;
+}
+
+h1 {
+	padding-left: 5%;
+}
+
+table, th, td {
+  padding: 5px;
+}
+
+table {
+  border-spacing: 15px;
+}
+
+#add_button{
+	display: block;
+	margin-left: 55%;
+	padding: 15px 20px;
+	background-color: #7FFF00;
+	border: none;
+	border-radius: 5px;
+	font-size: 15px;
+}

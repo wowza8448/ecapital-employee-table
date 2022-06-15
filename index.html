@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>eCapital Employee Table</title>
+</head>
+<body style="background-color:#F8F0E3;">
+    <div id="employee_table">
+	<h1>Employees</h1>
+	<table>
+        <tr>
+            <th style="color: grey;">First Name</th>
+            <th style="color: grey;">Last Name</th>
+            <th style="color: grey;">Salary</th>
+        </tr>
+        <tbody id="table_contents">
+		</tbody>
+    </table>
+	<button type="button" id="add_button" onclick="show_form();">Add Employee</button>
+	</div>
+	<div id="form_fields" style="display:none"><center>
+	<form>
+	<lable for="firstName">First Name: </label><input type="text" id="firstName" name="firstName"><br>
+	<lable for="lastName">Last Name: </label><input type="text" id="lastName" name="lastName"><br>
+	<lable for="Salary">Salary: </label><input type="text" id="Salary" name="Salary"><br>
+	<button type="button" id="submit" onclick="add();">Submit</button>
+	</form>
+	</center></div>
+    <script>
+		var edit_bool = 0;
+		var keep_index = 0;
+		//USD converter function
+		const formatter = new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+			minimumFractionDigits: 0
+			})
+		
+		fetch('mock-employees.json')
+			.then(response => response.json())
+			.then(function(data){
+			var table_to_write = document.getElementById("table_contents");
+			let out = "";
+			//For loop to add employee info from mock-employees to table
+			for(x = 0; x < Object.keys(data['employees']).length; x++){
+			let salary = formatter.format(data['employees'][x]['salary']);
+			out += `<tr>
+			<td>${data['employees'][x]['firstName']}</td>
+			<td>${data['employees'][x]['lastName']}</td>
+			<td>${salary}</td>
+			<td><a style="color: orange"; onclick="onEdit(this);">Edit </a> <a style="color: red"; onclick="onDelete(this);"> Delete</a></td>
+			</tr>`
+			}
+			table_to_write.innerHTML = out;
+			})
+			
+		function insert(){
+		var firstName = document.getElementById("firstName").value
+		var lastName = document.getElementById("lastName").value
+		var salary = document.getElementById("Salary").value
+		var table = document.getElementById("table_contents");
+		document.getElementById("table_contents").deleteRow(keep_index);
+		var row = table.insertRow(keep_index);
+		var cell1 = row.insertCell(0);
+		cell1.innerHTML = firstName;
+		var cell2 = row.insertCell(1);
+		cell2.innerHTML = lastName;
+		var cell3 = row.insertCell(2);
+		cell3.innerHTML = salary;
+		var cell4 = row.insertCell(3);
+		cell4.innerHTML = `<td><a style="color: orange"; onclick="onEdit(this);">Edit </a></td><td><a style="color: red"; onclick="onDelete(this);"> Delete</a></td></tr>`;
+		}
+		
+		function add(){
+		if (edit_bool == 1) {
+		insert();
+		clear_form();
+		}
+		else {
+		var firstName = document.getElementById("firstName").value
+		var lastName = document.getElementById("lastName").value
+		var salary = document.getElementById("Salary").value
+		var table = document.getElementById("table_contents");
+		var row = table.insertRow(-1);
+		var cell1 = row.insertCell(0);
+		cell1.innerHTML = firstName;
+		var cell2 = row.insertCell(1);
+		cell2.innerHTML = lastName;
+		var cell3 = row.insertCell(2);
+		cell3.innerHTML = salary;
+		var cell4 = row.insertCell(3);
+		cell4.innerHTML = `<td><a style="color: orange"; onclick="onEdit(this);">Edit </a></td><td><a style="color: red"; onclick="onDelete(this);"> Delete</a></td>`;
+		clear_form();
+		}
+		edit_bool = 0;
+		}
+		
+		function onEdit(td) {
+			edit_bool = 1;
+			selectedRow = td.parentElement.parentElement.rowIndex - 1;
+			document.getElementById("firstName").value = document.getElementById('table_contents').rows[selectedRow].cells[0].innerHTML
+			document.getElementById("lastName").value = document.getElementById('table_contents').rows[selectedRow].cells[1].innerHTML
+			document.getElementById("Salary").value = document.getElementById('table_contents').rows[selectedRow].cells[2].innerHTML
+			show_form();
+			keep_index = selectedRow;
+		}
+		
+		function onDelete(td) {
+			hide_form()
+			row = td.parentElement.parentElement.rowIndex - 1;
+			document.getElementById("table_contents").deleteRow(row);
+		}
+		
+		function hide_form(){
+			document.getElementById("form_fields").style.display = "none";
+		}
+		
+		
+		function show_form(){
+			document.getElementById("form_fields").style.display = "block";
+		}
+		
+		function clear_form() {
+			document.getElementById("firstName").value = ""
+			document.getElementById("lastName").value = ""
+			document.getElementById("Salary").value = ""
+			hide_form();
+		}
+    </script>
+</body>
+</html>
